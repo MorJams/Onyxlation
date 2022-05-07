@@ -3,5 +3,3 @@ emoats18 - Host
 ChaoticAgent - Host
 
 Sintyz - Host
-
-JamsMor - Host
