@@ -31,8 +31,8 @@
 			var/savefile/F = new(TORFILE)
 			for( var/line in rawlist )
 				if(!line)	continue
-				if( copytext(line,1,12) == "ExitAddress" )
-					var/cleaned = copytext(line,13,length(line)-19)
+				if( copytext_char(line,1,12) == "ExitAddress" )
+					var/cleaned = copytext_char(line,13,length(line)-19)
 					if(!cleaned)	continue
 					F[cleaned] << 1
 			F["last_update"] << world.realtime

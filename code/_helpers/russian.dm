@@ -108,13 +108,13 @@ var/global/list/rkeys = list(
 //TEXT MODS RUS
 /proc/capitalize_cp1251(var/t as text)
 	var/s = 2
-	if (copytext(t,1,2) == ";")
+	if (copytext_char(t,1,2) == ";")
 		s += 1
-	else if (copytext(t,1,2) == ":")
+	else if (copytext_char(t,1,2) == ":")
 		s += 2
-	return ruppertext(copytext(t, 1, s)) + copytext(t, s)
+	return ruppertext(copytext_char(t, 1, s)) + copytext_char(t, s)
 
 /proc/intonation(text)
-	if (copytext(text,-1) == "!")
+	if (copytext_char(text,-1) == "!")
 		text = "<b>[text]</b>"
 	return text

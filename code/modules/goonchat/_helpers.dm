@@ -37,7 +37,7 @@ GLOBAL_LIST_INIT(symbols_unicode_keys, list(
 		return FALSE
 	var/iconData = GLOB.iconCache.ExportText(iconKey)
 	var/list/partial = splittext(iconData, "{")
-	return replacetext(copytext(partial[2], 3, -5), "\n", "")
+	return replacetext(copytext_char(partial[2], 3, -5), "\n", "")
 
 /proc/icon2html(thing, target, icon_state, dir = SOUTH, frame = 1, moving = FALSE, realsize = FALSE, class = null)
 	if (!thing)

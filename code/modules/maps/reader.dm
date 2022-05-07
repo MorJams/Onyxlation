@@ -29,15 +29,15 @@ var/global/dmm_suite/preloader/_preloader = null
 	//first let's map model keys (e.g "aa") to their contents (e.g /turf/space{variables})
 	///////////////////////////////////////////////////////////////////////////////////////
 	var/list/grid_models = list()
-	var/key_len = length(copytext(tfile,2,findtext(tfile,quote,2,0)))//the length of the model key (e.g "aa" or "aba")
+	var/key_len = length(copytext_char(tfile,2,findtext(tfile,quote,2,0)))//the length of the model key (e.g "aa" or "aba")
 
 	//proceed line by line
 	for(lpos=1; lpos<tfile_len; lpos=findtext(tfile,"\n",lpos,0)+1)
-		var/tline = copytext(tfile,lpos,findtext(tfile,"\n",lpos,0))
-		if(copytext(tline,1,2) != quote)//we reached the map "layout"
+		var/tline = copytext_char(tfile,lpos,findtext(tfile,"\n",lpos,0))
+		if(copytext_char(tline,1,2) != quote)//we reached the map "layout"
 			break
-		var/model_key = copytext(tline,2,2+key_len)
-		var/model_contents = copytext(tline,findtext(tfile,"=")+3,length(tline))
+		var/model_key = copytext_char(tline,2,2+key_len)
+		var/model_contents = copytext_char(tline,findtext(tfile,"=")+3,length(tline))
 		grid_models[model_key] = model_contents
 		sleep(-1)
 
@@ -55,11 +55,11 @@ var/global/dmm_suite/preloader/_preloader = null
 		zcrd++
 		world.maxz = max(world.maxz, zcrd+z_offset)//create a new z_level if needed
 
-		var/zgrid = copytext(tfile,findtext(tfile,quote+"\n",zpos,0)+2,findtext(tfile,"\n"+quote,zpos,0)+1) //copy the whole map grid
+		var/zgrid = copytext_char(tfile,findtext(tfile,quote+"\n",zpos,0)+2,findtext(tfile,"\n"+quote,zpos,0)+1) //copy the whole map grid
 		var/z_depth = length(zgrid)
 
 		//if exceeding the world max x or y, increase it
-		var/x_depth = length(copytext(zgrid,1,findtext(zgrid,"\n",2,0)))
+		var/x_depth = length(copytext_char(zgrid,1,findtext(zgrid,"\n",2,0)))
 		if(world.maxx<x_depth)
 			world.maxx=x_depth
 
@@ -71,13 +71,13 @@ var/global/dmm_suite/preloader/_preloader = null
 		ycrd = y_depth
 
 		for(var/gpos=1;gpos!=0;gpos=findtext(zgrid,"\n",gpos,0)+1)
-			var/grid_line = copytext(zgrid,gpos,findtext(zgrid,"\n",gpos,0))
+			var/grid_line = copytext_char(zgrid,gpos,findtext(zgrid,"\n",gpos,0))
 
 			//fill the current square using the model map
 			xcrd=0
 			for(var/mpos=1;mpos<=x_depth;mpos+=key_len)
 				xcrd++
-				var/model_key = copytext(grid_line,mpos,mpos+key_len)
+				var/model_key = copytext_char(grid_line,mpos,mpos+key_len)
 				parse_grid(grid_models[model_key],xcrd,ycrd,zcrd+z_offset)
 
 			//reached end of current map
@@ -132,8 +132,8 @@ var/global/dmm_suite/preloader/_preloader = null
 		//finding next member (e.g /turf/unsimulated/wall{icon_state = "rock"} or /area/mine/explored)
 		dpos= find_next_delimiter_position(model,old_position,",","{","}")//find next delimiter (comma here) that's not within {...}
 
-		var/full_def = copytext(model,old_position,dpos)//full definition, e.g : /obj/foo/bar{variables=derp}
-		var/atom_def = text2path(copytext(full_def,1,findtext(full_def,"{")))//path definition, e.g /obj/foo/bar
+		var/full_def = copytext_char(model,old_position,dpos)//full definition, e.g : /obj/foo/bar{variables=derp}
+		var/atom_def = text2path(copytext_char(full_def,1,findtext(full_def,"{")))//path definition, e.g /obj/foo/bar
 		members.Add(atom_def)
 		old_position = dpos + 1
 
@@ -142,7 +142,7 @@ var/global/dmm_suite/preloader/_preloader = null
 
 		var/variables_start = findtext(full_def,"{")
 		if(variables_start)//if there's any variable
-			full_def = copytext(full_def,variables_start+1,length(full_def))//removing the last '}'
+			full_def = copytext_char(full_def,variables_start+1,length(full_def))//removing the last '}'
 			fields = text2list(full_def,";")
 
 		//then fill the members_attributes list with the corresponding variables
@@ -218,14 +218,14 @@ var/global/dmm_suite/preloader/_preloader = null
 //optionally removes quotes before and after the text (for variable name)
 /dmm_suite/proc/trim_text(var/what as text,var/trim_quotes=0)
 	while(length(what) && (findtext(what," ",1,2)))
-		what=copytext(what,2,0)
+		what=copytext_char(what,2,0)
 	while(length(what) && (findtext(what," ",length(what),0)))
-		what=copytext(what,1,length(what))
+		what=copytext_char(what,1,length(what))
 	if(trim_quotes)
 		while(length(what) && (findtext(what,quote,1,2)))
-			what=copytext(what,2,0)
+			what=copytext_char(what,2,0)
 		while(length(what) && (findtext(what,quote,length(what),0)))
-			what=copytext(what,1,length(what))
+			what=copytext_char(what,1,length(what))
 	return what
 
 //find the position of the next delimiter,skipping whatever is comprised between opening_escape and closing_escape
@@ -259,15 +259,15 @@ var/global/dmm_suite/preloader/_preloader = null
 		//check if this is a simple variable (as in list(var1, var2)) or an associative one (as in list(var1="foo",var2=7))
 		var/equal_position = findtext(text,"=",old_position, position)
 
-		var/trim_left = trim_text(copytext(text,old_position,(equal_position ? equal_position : position)),1)//the name of the variable, must trim quotes to build a BYOND compliant associatives list
+		var/trim_left = trim_text(copytext_char(text,old_position,(equal_position ? equal_position : position)),1)//the name of the variable, must trim quotes to build a BYOND compliant associatives list
 		old_position = position + 1
 
 		if(equal_position)//associative var, so do the association
-			var/trim_right = trim_text(copytext(text,equal_position+1,position))//the content of the variable
+			var/trim_right = trim_text(copytext_char(text,equal_position+1,position))//the content of the variable
 
 			//Check for string
 			if(findtext(trim_right,quote,1,2))
-				trim_right = copytext(trim_right,2,findtext(trim_right,quote,3,0))
+				trim_right = copytext_char(trim_right,2,findtext(trim_right,quote,3,0))
 
 			//Check for number
 			else if(isnum(text2num(trim_right)))
@@ -278,12 +278,12 @@ var/global/dmm_suite/preloader/_preloader = null
 				trim_right = null
 
 			//Check for list
-			else if(copytext(trim_right,1,5) == "list")
-				trim_right = text2list(copytext(trim_right,6,length(trim_right)))
+			else if(copytext_char(trim_right,1,5) == "list")
+				trim_right = text2list(copytext_char(trim_right,6,length(trim_right)))
 
 			//Check for file
-			else if(copytext(trim_right,1,2) == "'")
-				trim_right = file(copytext(trim_right,2,length(trim_right)))
+			else if(copytext_char(trim_right,1,2) == "'")
+				trim_right = file(copytext_char(trim_right,2,length(trim_right)))
 
 			to_return[trim_left] = trim_right
 

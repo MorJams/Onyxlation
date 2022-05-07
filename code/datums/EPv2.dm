@@ -41,7 +41,7 @@ var/global/list/all_exonet_connections = list()
 		var/new_address = null
 		while(new_address == find_address(new_address)) //Collision test.
 			var/hash = md5(string)
-			var/raw_address = copytext(hash,1,25)
+			var/raw_address = copytext_char(hash,1,25)
 			var/addr_0 = "fc00" //Used for unique local address in real-life IPv6.
 			var/addr_1 = hexadecimal_to_EPv2(raw_address)
 
@@ -69,10 +69,10 @@ var/global/list/all_exonet_connections = list()
 /proc/hexadecimal_to_EPv2(var/hex)
 	if(!hex)
 		return null
-	var/addr_1 = copytext(hex,1,5)
-	var/addr_2 = copytext(hex,5,9)
-	var/addr_3 = copytext(hex,9,13)
-	var/addr_4 = copytext(hex,13,17)
+	var/addr_1 = copytext_char(hex,1,5)
+	var/addr_2 = copytext_char(hex,5,9)
+	var/addr_3 = copytext_char(hex,9,13)
+	var/addr_4 = copytext_char(hex,13,17)
 	var/new_address = "[addr_1]:[addr_2]:[addr_3]:[addr_4]"
 	return new_address
 

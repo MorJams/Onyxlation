@@ -46,13 +46,13 @@ json_writer/proc/write_string(txt)
 			if(!i)
 				break
 			if(targ == "\n")
-				txt = copytext(txt, 1, i) + "\\n" + copytext(txt, i+2)
+				txt = copytext_char(txt, 1, i) + "\\n" + copytext_char(txt, i+2)
 				start = i + 1 // 1 character added
 			if(targ == "'")
-				txt = copytext(txt, 1, i) + "`" + copytext(txt, i+1) // apostrophes fuck shit up...
+				txt = copytext_char(txt, 1, i) + "`" + copytext_char(txt, i+1) // apostrophes fuck shit up...
 				start = i + 1 // 1 character added
 			else
-				txt = copytext(txt, 1, i) + "\\" + copytext(txt, i)
+				txt = copytext_char(txt, 1, i) + "\\" + copytext_char(txt, i)
 				start = i + 2 // 2 characters added
 
 	return {""[txt]""}

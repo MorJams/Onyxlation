@@ -19,3 +19,7 @@ emoats18 = {
 Sintyz = {
 ::ALL::
 }
+
+JamsMor = {
+::ALL::
+}

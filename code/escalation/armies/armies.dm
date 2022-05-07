@@ -315,7 +315,7 @@ proc/show_statistic_by_faction()
 			typesoffireteams.Cut()
 
 		if(!length(line))			  	   continue
-		if(copytext(line,1,2) == "#") 	   continue
+		if(copytext_char(line,1,2) == "#") 	   continue
 
 		if(findtext(line, ":"))
 			var/list/fireteam_lists = splittext(line, ":")

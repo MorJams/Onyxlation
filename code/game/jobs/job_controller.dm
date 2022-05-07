@@ -537,8 +537,8 @@ var/global/datum/controller/occupations/job_master
 			var/value = null
 
 			if(pos)
-				name = copytext(job, 1, pos)
-				value = copytext(job, pos + 1)
+				name = copytext_char(job, 1, pos)
+				value = copytext_char(job, pos + 1)
 			else
 				continue
 

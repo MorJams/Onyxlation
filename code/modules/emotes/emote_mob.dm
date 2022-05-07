@@ -44,8 +44,8 @@
 	var/splitpoint = findtext(act, " ")
 	if(splitpoint > 0)
 		var/tempstr = act
-		act = copytext(tempstr,1,splitpoint)
-		message = copytext(tempstr,splitpoint+1,0)
+		act = copytext_char(tempstr,1,splitpoint)
+		message = copytext_char(tempstr,splitpoint+1,0)
 
 	var/decl/emote/use_emote = usable_emotes[act]
 	if(!use_emote)
@@ -82,8 +82,8 @@
 
 	name_anchor = findtext(message, "^")
 	if(name_anchor > 0) // User supplied emote with a carat
-		pretext = copytext(message, 1, name_anchor)
-		subtext = copytext(message, name_anchor + 1, length(message) + 1)
+		pretext = copytext_char(message, 1, name_anchor)
+		subtext = copytext_char(message, name_anchor + 1, length(message) + 1)
 	else
 		// No carat. Just the emote as usual.
 		subtext = message
@@ -95,21 +95,21 @@
 
 	// Auto-capitalize our pretext if there is any.
 	if(pretext)
-		pretext = uppertext(copytext(pretext, 1, 2)) + copytext(pretext, 2, length(pretext) + 1)
+		pretext = uppertext(copytext_char(pretext, 1, 2)) + copytext_char(pretext, 2, length(pretext) + 1)
 		// Add a space at the end if we didn't already supply one.
-		end_char = copytext(pretext, length(pretext), length(pretext) + 1)
+		end_char = copytext_char(pretext, length(pretext), length(pretext) + 1)
 		if(end_char != " ")
 			pretext += " "
 
 	// Grab the last character of the emote message.
-	end_char = copytext(subtext, length(subtext), length(subtext) + 1)
+	end_char = copytext_char(subtext, length(subtext), length(subtext) + 1)
 	if(end_char != "." && end_char != "?" && end_char != "!" && end_char != "\"")
 		// No punctuation supplied. Tack a period on the end.
 		subtext += "."
 
 	// Add a space to the subtext, unless it begins with an apostrophe or comma... or a space.
 	if(subtext != ".")
-		start_char = copytext(subtext, 1, 2)
+		start_char = copytext_char(subtext, 1, 2)
 		if(start_char != "," && start_char != " " && start_char != "&") // Apostrophes are parsed as "&#039;", so uhh, yeah.
 			subtext = " " + subtext
 

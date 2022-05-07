@@ -23,7 +23,7 @@
 	//parse the language code and consume it
 	var/datum/language/speaking = parse_language(message)
 	if (speaking)
-		message = copytext(message,2+length(speaking.key))
+		message = copytext_char(message,2+length(speaking.key))
 
 	if ((health < maxHealth/4) || is_asystole())
 		var/verb = "whispers in their final breath"

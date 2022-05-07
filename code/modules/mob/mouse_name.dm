@@ -39,7 +39,7 @@ proc
 	nameToList(atom/target)
 		var/list/name_list = list()
 		for(var/letter = 1, letter < lentext(target.name) + 1, letter++)
-			name_list += copytext(target.name, letter, letter + 1)
+			name_list += copytext_char(target.name, letter, letter + 1)
 		return name_list
 
 	showName(atom/target, client/player)

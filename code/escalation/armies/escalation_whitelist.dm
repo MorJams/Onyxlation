@@ -17,7 +17,7 @@
 		if(!length(lines))
 			continue
 
-		if(copytext(lines,1,2) == "#")
+		if(copytext_char(lines,1,2) == "#")
 			continue
 
 		if(findtext(lines, "= {"))
@@ -42,7 +42,7 @@
 		if(!length(lines))
 			continue
 
-		if(copytext(lines,1,2) == "#")
+		if(copytext_char(lines,1,2) == "#")
 			continue
 
 		if(findtext(lines, need_key))
@@ -74,6 +74,8 @@
 		return 1
 
 /proc/check_player_in_whitelist(var/key, var/rank)
+	return 1
+/*
 	var/ckey = ckey(key)
 	if(!ckey)
 		return 0
@@ -87,6 +89,7 @@
 
 	if(rank in aviable_roles)
 		return 1
+*/
 
 /hook/startup/proc/loadCkeyWhitelist()
 	load_ckey_whitelist()
@@ -101,8 +104,8 @@
 			continue
 
 		var/ascii = text2ascii(line,1)
-		
-		if(copytext(line,1,2) == "#" || ascii == 32)
+
+		if(copytext_char(line,1,2) == "#" || ascii == 32)
 			continue
 
 		ckey_whitelist.Add(line)

@@ -175,7 +175,7 @@ var/world_topic_spam_protect_time = world.timeofday
 				n++
 		return n
 
-	else if (copytext(T,1,7) == "status")
+	else if (copytext_char(T,1,7) == "status")
 		var/input[] = params2list(T)
 		var/list/s = list()
 		s["version"] = game_version
@@ -256,7 +256,7 @@ var/world_topic_spam_protect_time = world.timeofday
 
 		return list2params(L)
 
-	else if(copytext(T,1,5) == "laws")
+	else if(copytext_char(T,1,5) == "laws")
 		var/input[] = params2list(T)
 		if(input["key"] != config.comms_password)
 			if(world_topic_spam_protect_ip == addr && abs(world_topic_spam_protect_time - world.time) < 50)
@@ -306,7 +306,7 @@ var/world_topic_spam_protect_time = world.timeofday
 				ret[M.key] = M.name
 			return list2params(ret)
 
-	else if(copytext(T,1,5) == "info")
+	else if(copytext_char(T,1,5) == "info")
 		var/input[] = params2list(T)
 		if(input["key"] != config.comms_password)
 			if(world_topic_spam_protect_ip == addr && abs(world_topic_spam_protect_time - world.time) < 50)
@@ -364,7 +364,7 @@ var/world_topic_spam_protect_time = world.timeofday
 				ret[M.key] = M.name
 			return list2params(ret)
 
-	else if(copytext(T,1,9) == "adminmsg")
+	else if(copytext_char(T,1,9) == "adminmsg")
 		/*
 			We got an adminmsg from IRC bot lets split the input then validate the input.
 			expected output:
@@ -418,7 +418,7 @@ var/world_topic_spam_protect_time = world.timeofday
 				to_chat(A, amessage)
 		return "Message Successful"
 
-	else if(copytext(T,1,6) == "notes")
+	else if(copytext_char(T,1,6) == "notes")
 		/*
 			We got a request for notes from the IRC Bot
 			expected output:
@@ -439,7 +439,7 @@ var/world_topic_spam_protect_time = world.timeofday
 
 		return show_player_info_irc(ckey(input["notes"]))
 
-	else if(copytext(T,1,4) == "age")
+	else if(copytext_char(T,1,4) == "age")
 		var/input[] = params2list(T)
 		if(input["key"] != config.comms_password)
 			if(world_topic_spam_protect_ip == addr && abs(world_topic_spam_protect_time - world.time) < 50)
@@ -460,7 +460,7 @@ var/world_topic_spam_protect_time = world.timeofday
 		else
 			return "Database connection failed or not set up"
 
-	else if(copytext(T,1,14) == "placepermaban")
+	else if(copytext_char(T,1,14) == "placepermaban")
 		var/input[] = params2list(T)
 		if(!config.ban_comms_password)
 			return "Not enabled"
@@ -492,7 +492,7 @@ var/world_topic_spam_protect_time = world.timeofday
 		notes_add(target,"[input["id"]] has permabanned [C.ckey]. - Reason: [input["reason"]] - This is a ban until appeal.",input["id"])
 		qdel(C)
 
-	else if(copytext(T,1,19) == "prometheus_metrics")
+	else if(copytext_char(T,1,19) == "prometheus_metrics")
 		var/input[] = params2list(T)
 		if(input["key"] != config.comms_password)
 			if(world_topic_spam_protect_ip == addr && abs(world_topic_spam_protect_time - world.time) < 50)
@@ -590,13 +590,13 @@ var/world_topic_spam_protect_time = world.timeofday
 				if (!line)
 					continue
 
-				if (copytext(line, 1, 2) == ";")
+				if (copytext_char(line, 1, 2) == ";")
 					continue
 
 				var/title = "Moderator"
 				var/rights = admin_ranks[title]
 
-				var/ckey = copytext(line, 1, length(line)+1)
+				var/ckey = copytext_char(line, 1, length(line)+1)
 				var/datum/admins/D = new /datum/admins(title, rights, ckey)
 				D.associate(GLOB.ckey_directory[ckey])
 
@@ -610,13 +610,13 @@ var/world_topic_spam_protect_time = world.timeofday
 			for(var/line in lines)
 				if (!line)
 					continue
-				if (copytext(line, 1, 2) == ";")
+				if (copytext_char(line, 1, 2) == ";")
 					continue
 
 				var/title = "Mentor"
 				var/rights = admin_ranks[title]
 
-				var/ckey = copytext(line, 1, length(line)+1)
+				var/ckey = copytext_char(line, 1, length(line)+1)
 				var/datum/admins/D = new /datum/admins(title, rights, ckey)
 				D.associate(GLOB.ckey_directory[ckey])
 

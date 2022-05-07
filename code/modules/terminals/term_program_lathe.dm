@@ -95,7 +95,7 @@
 						max_sheets = sheets
 					if(!isnull(lathe.stored_material[material]) && lathe.stored_material[material] < round(R.resources[material]*lathe.mat_efficiency))
 						can_make = 0
-					material_string += "[round(R.resources[material] * lathe.mat_efficiency)][copytext(material,1,3)] "
+					material_string += "[round(R.resources[material] * lathe.mat_efficiency)][copytext_char(material,1,3)] "
 					max_sheets = min(max_sheets, MAX_ITEMS_PER_PRINT)
 
 				//Build list of multipliers for sheets.
